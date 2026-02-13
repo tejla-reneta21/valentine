@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Valentine Cinematic</title>
+
+<style>
+body{
+ margin:0;
+ font-family:'Segoe UI', sans-serif;
+ text-align:center;
+ background:linear-gradient(270deg,#000000,#1a0000,#330000,#000000);
+ background-size:600% 600%;
+ animation:bgMove 18s ease infinite;
+ overflow:hidden;
+}
+
+@keyframes bgMove{
+ 0%{background-position:0% 50%;}
+ 50%{background-position:100% 50%;}
+ 100%{background-position:0% 50%;}
+}
+
+.page{
+ display:none;
+ justify-content:center;
+ align-items:center;
+ height:100vh;
+ flex-direction:column;
+ position:relative;
+ z-index:2;
+}
+#start{display:flex;}
+
+/* ❤️ TWINKLING RED HEARTS */
+.heartLayer{
+ position:fixed;
+ top:0;
+ left:0;
+ width:100%;
+ height:100%;
+ pointer-events:none;
+ overflow:hidden;
+ z-index:1;
+}
+
+.twinkleHeart{
+ position:absolute;
+ color:#ff1a1a;
+ text-shadow:0 0 10px #ff0000;
+ animation:twinkle 3s ease-in-out infinite alternate, floatSlow 12s linear infinite;
+}
+
+@keyframes twinkle{
+ from{opacity:0.4; transform:scale(0.8);} 
+ to{opacity:1; transform:scale(1.15);} 
+}
+
+@keyframes floatSlow{
+ from{transform:translateY(100vh);} 
+ to{transform:translateY(-20vh);} 
+}
+
+h2,h3{
+ color:#ff2e2e;
+ text-shadow:0 0 12px #ff0000;
+}
+
+button{
+ padding:12px 26px;
+ margin:12px;
+ border:none;
+ border-radius:40px;
+ background:linear-gradient(45deg,#660000,#ff0000,#660000);
+ background-size:200% 200%;
+ animation:btnFlow 6s ease infinite;
+ color:white;
+ font-size:15px;
+ cursor:pointer;
+ box-shadow:0 0 20px rgba(255,0,0,0.7);
+ transition:0.3s;
+}
+button:hover{transform:scale(1.08);} 
+
+@keyframes btnFlow{
+ 0%{background-position:0% 50%;}
+ 50%{background-position:100% 50%;}
+ 100%{background-position:0% 50%;}
+}
+
+.cuteBtn{ margin-top:80px; font-size:16px; }
+
+/* INTRO POPUP */
+.intro{
+ position:fixed;
+ top:0;left:0;
+ width:100%;
+ height:100%;
+ background:rgba(0,0,0,0.85);
+ display:none;
+ justify-content:center;
+ align-items:center;
+ z-index:3;
+}
+
+.popupCard{
+ background:linear-gradient(145deg,#1a0000,#330000);
+ padding:60px 45px;
+ border-radius:30px;
+ box-shadow:0 0 60px rgba(255,0,0,0.6);
+ color:#ff4d4d;
+ font-size:34px;
+ text-align:center;
+ animation:popIn 0.8s ease;
+}
+
+@keyframes popIn{
+ from{transform:scale(0.6);opacity:0;} 
+ to{transform:scale(1);opacity:1;} 
+}
+
+/* centered cards */
+.centerCard{
+ background:linear-gradient(160deg,#1a0000,#260000);
+ padding:45px;
+ border-radius:25px;
+ box-shadow:0 0 40px rgba(255,0,0,0.5);
+ color:#ff4d4d;
+}
+
+.slideshow{
+ position:relative;
+ width:240px;
+ height:300px;
+ margin:auto;
+ border-radius:20px;
+ overflow:hidden;
+ box-shadow:0 0 45px rgba(255,0,0,0.9);
+}
+
+.photo{
+ position:absolute;
+ top:0;            /* ✅ fix image alignment */
+ left:0;           /* ✅ makes image fit correctly */
+ width:100%;
+ height:100%;
+ object-fit:cover; /* keeps photo properly fitted */
+ opacity:0;
+ transition:1s;
+}
+.photo.active{opacity:1;}
+
+/* END SCREEN */
+#end{
+ background:linear-gradient(180deg,#000000,#140000);
+ color:white;
+ height:100vh;
+ justify-content:center;
+ align-items:center;
+ flex-direction:column;
+}
+
+.highlight{
+ color:#ff2e2e;
+ font-size:30px;
+ text-shadow:0 0 25px #ff0000;
+}
+</style>
+</head>
+
+<body>
+
+<div id="heartLayer" class="heartLayer"></div>
+
+<div id="start" class="page">
+<h2>Will you be my Valentine? ❤️</h2>
+<button id="yes" onclick="goIntro()">YES 😍</button>
+<button id="no" onmouseover="moveNo()">NO 😜</button>
+</div>
+
+<div id="intro" class="intro">
+<div class="popupCard">
+Be my Valentine forever Mr Santhakumar ❤️
+<br>
+<button class="cuteBtn" onclick="goLogin()">❤️ ok va?</button>
+</div>
+</div>
+
+<div id="login" class="page">
+<div class="centerCard">
+<h3>Enter Password(nama commit ana date (dd/mm/yr))</h3>
+<input id="pass">
+<p id="error" style="color:red;display:none;">Therilaya...💔 nane solura</p>
+<button class="cuteBtn" onclick="check()">unlock❤️</button>
+</div>
+</div>
+
+<div id="slide" class="page">
+<div class="centerCard">
+<h2>Our Memories ❤️</h2>
+<div class="slideshow">
+<img class="photo active" src="a.jpeg">
+<img class="photo" src="b.jpeg">
+<img class="photo" src="c.jpeg">
+<img class="photo" src="d.jpeg">
+<img class="photo" src="e.jpeg">
+</div>
+<br>
+<button class="cuteBtn" onclick="toggleSlide()">⏸️ Pause / Play</button>
+<button class="cuteBtn" onclick="goLetter()">luv u ❤️</button>
+</div>
+</div>
+
+<div id="letter" class="page">
+<div class="centerCard">
+<p id="loveText" style="font-size:20px;color:#ff4d4d;"></p>
+<br>
+<button class="cuteBtn" onclick="finishStory()">❤️ avlodha</button>
+</div>
+</div>
+
+<div id="end" class="page">
+<h1>THE END ❤️</h1>
+<p>Directed by</p>
+<h2 class="highlight">Teju (unoda Anbu,unoda Arakki)</h2>
+</div>
+
+<script>
+
+function startTwinkleHearts(){
+ const layer=document.getElementById("heartLayer");
+ layer.innerHTML="";
+ for(let i=0;i<40;i++){
+   const h=document.createElement("div");
+   h.className="twinkleHeart";
+   h.innerHTML="❤️";
+   h.style.left=Math.random()*100+"vw";
+   h.style.fontSize=(10+Math.random()*12)+"px";
+   h.style.animationDelay=Math.random()*5+"s";
+   layer.appendChild(h);
+ }
+}
+
+function stopTwinkleHearts(){
+ document.getElementById("heartLayer").innerHTML="";
+}
+
+function hideAll(){
+ start.style.display="none";
+ login.style.display="none";
+ slide.style.display="none";
+ letter.style.display="none";
+ end.style.display="none";
+ intro.style.display="none";
+}
+
+let size=1;
+function moveNo(){
+ let btn=document.getElementById("no");
+ btn.style.position="absolute";
+ btn.style.left=Math.random()*400+"px";
+ btn.style.top=Math.random()*300+"px";
+ size+=0.1;
+ document.getElementById("yes").style.transform="scale("+size+")";
+}
+
+function goIntro(){
+ hideAll();
+ intro.style.display="flex";
+ startTwinkleHearts();
+}
+
+function goLogin(){
+ hideAll();
+ login.style.display="flex";
+ startTwinkleHearts();
+}
+
+function check(){
+ if(pass.value==="04042023"){
+  error.style.display="none";
+  hideAll();
+  slide.style.display="flex";
+  startTwinkleHearts();
+ }else{
+  error.style.display="block";
+ }
+}
+
+let pics=document.getElementsByClassName("photo");
+let pIndex=0;
+let slideRunning=true;
+
+setInterval(()=>{
+ if(slideRunning && pics.length>0){
+  pics[pIndex].classList.remove("active");
+  pIndex=(pIndex+1)%pics.length;
+  pics[pIndex].classList.add("active");
+ }
+},3000);
+
+function toggleSlide(){ slideRunning=!slideRunning; }
+
+const message = `Happy valentines day dear enaku theriyum starting la irutha mari nama luv life ipo avlo happy ah ila neraya sanda neraya misunderstanding. romba mosama iruthuche intha year starting eh ithu elame inime nadakathu nu enala sola mudiyathu nama ipo epadi elathayum overcome pani vanthomo athey mari ini vara years vum ela sanda misunderstanding ah overcome pani varuvom. ena tha 1000 sanda vanthalum enaku neenga tha ungaluku na tha inum nama poga vendiya thuram neraya iruku. ela prblm ah senthu handle pani nama luv ah melum melum valarpom. I am sorry and I truly love you 💚. Happy valentines day mama ❤️`;
+
+let i=0;
+
+function typeLetter(){
+ if(i<message.length){
+  loveText.innerHTML+=message.charAt(i);
+  i++;
+  setTimeout(typeLetter,35);
+ }
+}
+
+function goLetter(){
+ hideAll();
+ letter.style.display="flex";
+ stopTwinkleHearts();
+ typeLetter();
+}
+
+function finishStory(){
+ hideAll();
+ end.style.display="flex";
+ startTwinkleHearts();
+}
+
+startTwinkleHearts();
+
+</script>
+</body>
+</html>
